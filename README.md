@@ -16,15 +16,17 @@ Usage
 
 Options:
 
-* `--no-color`        : Suppress color (by default, color is enabled)
-* `-u`, `--show-user` : Display username of the process owner
-* `-c`, `--show-cmd`  : Display the process name
-* `-p`, `--show-pid`  : Display PID of the process
-* `--json`            : JSON Output (Experimental, #10)
+* `--color`            : Force colored output (even when stdout is not a tty)
+* `--no-color`         : Suppress colored output
+* `-u`, `--show-user`  : Display username of the process owner
+* `-c`, `--show-cmd`   : Display the process name
+* `-p`, `--show-pid`   : Display PID of the process
+* `-P`, `--show-power` : Display GPU power usage and/or limit (`draw` or `draw,limit`)
+* `--json`             : JSON Output (Experimental, [#10][gh-issue-10])
 
 ### Tips
 
-- To periodically watch, try `watch --color -n1.0 gpustat` (built-in watch support will be added soon).
+- To periodically watch, try `watch --color -n1.0 gpustat --color` (built-in watch support will be added soon).
 - Running `nvidia-smi daemon` (root privilege required) will make the query much **faster**.
 - The GPU ID (index) shown by `gpustat` (and `nvidia-smi`) is PCI BUS ID,
   while CUDA differently assigns the fastest GPU with the lowest ID by default.
@@ -40,7 +42,7 @@ Quick Installation
 Install from [PyPI][pypi_gpustat]:
 
 ```
-sudo pip install gpustat
+pip install gpustat
 ```
 
 To install the latest version (master branch) via pip:
@@ -49,16 +51,17 @@ To install the latest version (master branch) via pip:
 pip install git+https://github.com/wookayin/gpustat.git@master
 ```
 
-Alternatively, you can just download an *unstable* version of [gpustat.py][script_gitio] (or any [stable version][script_stable]) into somewhere in `PATH`, e.g. `~/.local/bin/`
-(when you do not have root privilege, for example):
+If you don't have root privilege, please try to install on user namespace: `pip install --user`.
+Note that from v0.4, `gpustat.py` is no more a zero-dependency executable.
+However, in rare cases you'll need a single executable script (legacy), you can also try:
 
 ```
-sudo wget https://git.io/gpustat.py -O /usr/local/bin/gpustat && sudo chmod +x /usr/local/bin/gpustat
+wget https://raw.githubusercontent.com/wookayin/gpustat/v0.3.2/gpustat.py -O ~/.local/bin/gpustat
+chmod +x ~/.local/bin/gpustat    # Assuming ~/.local/bin is in your $PATH
 ```
 
 [pypi_gpustat]: https://pypi.python.org/pypi/gpustat
-[script_gitio]: https://git.io/gpustat.py
-[script_stable]: https://raw.githubusercontent.com/wookayin/gpustat/v0.3.1/gpustat.py
+[gh-issue-10]: https://github.com/wookayin/gpustat/issues/10
 
 
 License
